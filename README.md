@@ -8,8 +8,9 @@ Automated Linux Server Health Check is a simple Bash scripting project designed 
 3. [Project Structure](#3-Project-Structure)
 4. [Server Environment](#4-Server-Environment)
 5. [Creating the Health Check Script](#5-Creating-the-Health-Check-Script)
-6. 
-
+6. [Making the Script Executable](#6-Making-the-Script-Executable)
+7. [Running the Script](#7-Running-the-Script)
+   
 ## 1. Project Overview
 ### Introduction
 The script collects and displays important server health information, including the current system date and time, CPU usage, memory utilization, and disk usage. This project demonstrates how basic Linux commands can be combined with Bash scripting, pipes, `grep`, and `awk` to create a lightweight server monitoring tool.
@@ -163,3 +164,69 @@ It just labels the next section.
 echo "DATE:"
 ```
 Outputs the label "DATE:" to show that the current date/time is about to be printed.
+```
+date
+```
+Runs the built-in Linux date command, which shows the current system date and time.
+Example output:
+<img width="288" height="60" alt="date 1" src="https://github.com/user-attachments/assets/bf182055-a972-4efa-956c-80e58b2fc680" />
+### Step 4 - Check CPU Usage
+```
+echo " CPU Usage:"
+```
+Displays a label for the CPU usage section.
+```
+top -bn1 | grep "Cpu(s)" | awk '{print "Used: " $2 "%, Idle: " $8 "%"}'
+```
+This is the most complex part so far. It checks the CPU usage in real time:
+| Command | Function |
+|---------|----------|
+| top -bn1 | Runs the `top` command in batch mode `(-b)` for 1 iteration `(-n1)` |
+| grep "Cpu(s)" | Filters only the line that contains CPU usage stats |
+| awk '{print "Used: " $2 "%, Idle: " $8 "%"}' | Extracts the used and idle CPU percentages from the line |
+Example Output:
+<img width="230" height="47" alt="CPU" src="https://github.com/user-attachments/assets/b70cee2c-8b6e-442c-925c-630b865e9e4b" />
+Note: `$2` and `$8` are columns in the output line from `top`.
+### Step 5 - Check Memory Usage
+```
+free -h | awk  'NR==2{print "Total: " $2 ", Used: "$3 ", Free: " $4}'
+```
+This command checks the RAM (memory):
+| Command | Function |
+|---------|----------|
+| free -h | Shows memory in human-readable format (GB/MB) |
+| awk 'NR==2{...}' | Extracts only the second line of output, which represents main memory usage |
+It prints total, used, and free memory
+Example Output:
+<img width="347" height="40" alt="disk" src="https://github.com/user-attachments/assets/a4ceb5d1-c67d-42a4-b32d-99c560dbc3aa" />
+## Step 6 - Check Disk Usage
+```
+df -h --output=source,pcent | grep '^/dev/'
+```
+This command checks disk usage:
+| Command | Function |
+|---------|----------|
+| df -h   | Disk free in human-readable format |
+| --output=source,pcent | Only show the device name and usage percentage |
+| grep '^/dev/' | Filters out only the mounted drives (ignores tmpfs, loop devices, etc.) |
+Example Output:
+<img width="211" height="46" alt="Storage" src="https://github.com/user-attachments/assets/5c67aa39-1a30-427d-8424-91b76fe9ef5e" />
+## Step 7 - Complete The Script
+<img width="652" height="332" alt="3" src="https://github.com/user-attachments/assets/575d99bb-ec76-46ed-a0c8-8d87675c4ed9" />
+
+## 6. Making the Script Executable
+```
+chmod +x server-health-check.sh
+```
+This command gives execution permission to the Server Health Check Script so we can run it directly as a program in our Linux terminal
+| Command | Function |
+|---------|----------|
+| chmod   | Changes the file mode (permissions) of a file in Unix-like operating systems. |
+| +x      | Adds executable permission for the owner, group, and others. |
+
+## 7. Running The Script
+```
+ ./server-health.sh
+```
+Example Output:
+<img width="720" height="238" alt="output" src="https://github.com/user-attachments/assets/68221900-15f4-4ef2-91b0-210a61dc677f" />
