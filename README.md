@@ -7,7 +7,8 @@ Automated Linux Server Health Check is a simple Bash scripting project designed 
 2. [Requirements](#2-Requirements)
 3. [Project Structure](#3-Project-Structure)
 4. [Server Environment](#4-Server-Environment)
-5. 
+5. [Creating the Health Check Script](#5-Creating-the-Health-Check-Script)
+6. 
 
 ## 1. Project Overview
 ### Introduction
@@ -131,3 +132,34 @@ For example, the server environment can be summarized as:
 | Memory | Total server memory |
 | Storage | Available server storage |
 | Kernel | Linxu Kernel Version |
+
+The actual values depend on the Linux server or virtual machine used for this project.
+
+## 5. Creating the Health Check Script
+### Step 1 - Create the Bash File
+First, we create our directory where we will save the script and also make it easy to search.
+<img width="620" height="117" alt="1" src="https://github.com/user-attachments/assets/4be429ed-3117-4582-8d02-aac957b47551" />
+Next, we create the script. You can use Vim or Nano or any other Linux text editor, but in this case I'm using Nano.
+<img width="742" height="96" alt="2" src="https://github.com/user-attachments/assets/2ba2af59-f2dd-4c31-8cb6-af0055e461d4" />
+### Step 2 - Add Shebang
+```
+#!/bin/bash
+```
+This command is called a shebang.
+It tells the system to use the Bash shell to execute the script.
+Without this first line, the system may try to use another shell, like `sh`, which might not support all Bash features.
+```
+echo "Checking Server Health..."
+```
+This command prints a nice, friendly banner to indicate the start of the health check process.
+Also, `echo` is used to display text on the terminal or write it to a log file
+### Step 3 - Check Date and Time
+```
+# Check Date
+```
+A comment line for readability. Comments start with # and are ignored during execution.
+It just labels the next section.
+```
+echo "DATE:"
+```
+Outputs the label "DATE:" to show that the current date/time is about to be printed.
