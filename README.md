@@ -33,3 +33,33 @@ You can check the installed Bash version using:
 ```
 bash --version
 ```
+## Required Linux Commands
+The script uses several standard Linux commands:
+| Command | Function |
+|---------|----------|
+|  date   | Displays the current system date and time |
+|  top    | Displays CPU and running process information |
+|   free  | Displays system memory usage |
+|    df   | Displays filesystem and disk usage |
+|   grep  | Filters specific text from command output |
+|   awk   | Processes and formats command output |
+
+You can check whether these commands are available using:
+```
+which date
+```
+```
+which top
+```
+```
+which free
+```
+```
+which df
+```
+```
+which grep
+```
+```
+which awk
+```
