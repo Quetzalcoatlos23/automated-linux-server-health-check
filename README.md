@@ -10,6 +10,7 @@ Automated Linux Server Health Check is a simple Bash scripting project designed 
 5. [Creating the Health Check Script](#5-Creating-the-Health-Check-Script)
 6. [Making the Script Executable](#6-Making-the-Script-Executable)
 7. [Running the Script](#7-Running-the-Script)
+8. [Automation Scheduling with Cron](#8-Automation-Scheduling-with-Cron)
    
 ## 1. Project Overview
 ### Introduction
@@ -230,3 +231,24 @@ This command gives execution permission to the Server Health Check Script so we 
 ```
 Example Output:
 <img width="720" height="238" alt="output" src="https://github.com/user-attachments/assets/68221900-15f4-4ef2-91b0-210a61dc677f" />
+## 8. Automation Scheduling with Cron
+To automate this script to run daily at 6:00 PM, we will use a cron job.
+### What is Cron?
+Cron is a time-based job scheduling utility in Linux used to automate repetitive tasks. It runs continuously in the background as a daemon process named `crond`. Once per minute, it checks the configuration files—known as a crontab **(cron table)**—and executes any scripts or commands scheduled for that exact time.
+<img width="2281" height="1225" alt="cron" src="https://github.com/user-attachments/assets/4771e900-1856-4786-82aa-da166b30e4ee" />
+### Add the Scheduler Cron Job
+Open Crontab with this command:
+```
+crontab -e
+```
+Add the following line of code at the end of the script:
+```
+00 18 * * * <PATH-TO-SCRIPT>/server-health.sh >> /home/netcon/server-health.log 2>&100 18 * * * <PATH-TO-SCRIPT>/server-health.sh >> /home/netcon/server-health.log 2>&1
+```
+Note: You can change the `18` to any hour schedule range from 0-23
+### This cron Job:
+* Run every day at 18:00 (6 PM)
+* Appends the script output to `server-health.log`
+* Redirects any errors to the same log file (2>&1)
+
+Using a handful of Bash commands and a timed `cron` job, we’ve created a simple server monitoring setup. It doesn’t serve as a substitute for comprehensive observability platforms such as Prometheus or Datadog — yet it is straightforward, quick, and functions without an internet connection.
